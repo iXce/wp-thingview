@@ -26,7 +26,7 @@ function thingview_handle_upload($data, $task) {
 
   $filename = $data['file'];
   $json_filename = "$filename.json";
-  $ext = pathinfo($filename, PATHINFO_EXTENSION);
+  $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
   if ($data['type'] != 'application/sla' || $ext != 'stl')
     return $data;
@@ -51,7 +51,7 @@ function thingview_handle_upload($data, $task) {
 add_filter('wp_handle_upload', 'thingview_handle_upload', 10, 2);
 
 function thingview_delete_file($filename) {
-  $ext = pathinfo($filename, PATHINFO_EXTENSION);
+  $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
   if ($ext != 'stl')
     return $file;
