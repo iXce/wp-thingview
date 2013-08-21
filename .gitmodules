@@ -1,0 +1,3 @@
+[submodule "thingiview.js"]
+	path = thingiview.js
+	url = https://github.com/tbuser/thingiview.js.git
