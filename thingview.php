@@ -50,4 +50,19 @@ function thingview_handle_upload($data, $task) {
 }
 add_filter('wp_handle_upload', 'thingview_handle_upload', 10, 2);
 
+function thingview_delete_file($filename) {
+  $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+  if ($ext != 'stl')
+    return $file;
+
+  $json_filename = "$filename.json";
+
+  if (file_exists($json_filename))
+    unlink($json_filename);
+
+  return $filename;
+}
+add_filter('wp_delete_file', 'thingview_delete_file');
+
 ?>
