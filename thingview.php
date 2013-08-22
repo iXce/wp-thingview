@@ -81,4 +81,16 @@ function thingview_script() {
 }
 add_action('print_media_templates', 'thingview_script');
 
+function thingview_send_to_editor($html, $id, $attachment) {
+  $filename = get_attached_file($attachment['id'], true);
+  $ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+  if ($ext == 'stl') {
+    $html = sprintf('[stl id=%d width="500px" height="360px" class="aligncenter"]', $attachment['id']);
+  }
+
+  return $html;
+}
+add_filter('media_send_to_editor', 'thingview_send_to_editor', 10, 3);
+
 ?>
