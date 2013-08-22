@@ -93,4 +93,42 @@ function thingview_send_to_editor($html, $id, $attachment) {
 }
 add_filter('media_send_to_editor', 'thingview_send_to_editor', 10, 3);
 
+function thingview_stl_shortcode($attributes) {
+  $default_attributes = array('id' => 0,
+                              'width' => '500px',
+                              'height' => '360px',
+                              'class' => '',
+                              'color' => '#86E4FF',
+                              'background' => 'inherit');
+  $attributes = shortcode_atts($default_attributes, $attributes, 'stl');
+  $file_url = wp_get_attachment_url($attributes['id']);
+  if ($file_url === false)
+    return "Missing attachment STL file";
+
+  wp_enqueue_script('jquery');
+  wp_print_scripts('jquery');
+  $js_dir = plugins_url("thingiview.js/javascripts/", __FILE__);
+  wp_enqueue_script("Three.js", $js_dir . "Three.js");
+  wp_enqueue_script("plane.js", $js_dir . "plane.js", array("Three.js"));
+  wp_enqueue_script("thingiview.js", $js_dir . "thingiview.js",
+                    array("Three.js", "plane.js"));
+
+  return '
+  <script>
+    jQuery(document).ready(function() {
+      thingiurlbase = "' . $js_dir . '";
+      thingiview' . $attributes['id'] . ' = new Thingiview("stl-' . $attributes['id'] . '");
+      thingiview' . $attributes['id'] . '.setObjectColor("' . $attributes['color']. '");
+      thingiview' . $attributes['id'] . '.setBackgroundColor("' . $attributes['background'] . '");
+      thingiview' . $attributes['id'] . '.initScene();
+      thingiview' . $attributes['id'] . '.loadJSON("' . $file_url . '.json");
+    })
+  </script>
+  <div id="stl-' . $attributes['id'] .
+  '" class="' . $attributes['class'] .
+  '" style="width:' . $attributes['width'] .
+         '; height:' . $attributes['height'].'"></div>';
+}
+add_shortcode( 'stl', 'thingview_stl_shortcode' );
+
 ?>
