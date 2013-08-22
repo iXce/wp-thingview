@@ -65,4 +65,20 @@ function thingview_delete_file($filename) {
 }
 add_filter('wp_delete_file', 'thingview_delete_file');
 
+function thingview_script() {
+  ?>
+  <script type="text/javascript">
+  jQuery(document).ready( function($) {
+    $( 'li.attachment > div.type-application.subtype-sla:parent' ).live( 'click', function( event ) {
+      $( ".link-to > [value='none']").attr( "selected", true ); // selected none in select field
+      $( ".link-to-custom" ).val( '' ); // clear input field for target of link
+      $( '.media-sidebar div.setting' ).remove(); // remove link field
+      $( '.attachment-display-settings' ).attr( "hidden", true );
+    });
+  } );
+  </script>
+  <?php
+}
+add_action('print_media_templates', 'thingview_script');
+
 ?>
