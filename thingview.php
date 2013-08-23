@@ -86,21 +86,21 @@ function thingview_send_to_editor($html, $id, $attachment) {
   $ext = pathinfo($filename, PATHINFO_EXTENSION);
 
   if ($ext == 'stl') {
-    $html = sprintf('[stl id=%d width="500px" height="360px" class="aligncenter"]', $attachment['id']);
+    $html = sprintf('[thing id=%d width="500px" height="360px" class="aligncenter"]', $attachment['id']);
   }
 
   return $html;
 }
 add_filter('media_send_to_editor', 'thingview_send_to_editor', 10, 3);
 
-function thingview_stl_shortcode($attributes) {
+function thingview_thing_shortcode($attributes) {
   $default_attributes = array('id' => 0,
                               'width' => '500px',
                               'height' => '360px',
                               'class' => '',
                               'color' => '#86E4FF',
                               'background' => 'inherit');
-  $attributes = shortcode_atts($default_attributes, $attributes, 'stl');
+  $attributes = shortcode_atts($default_attributes, $attributes, 'thing');
   $file_url = wp_get_attachment_url($attributes['id']);
   if ($file_url === false)
     return "Missing attachment STL file";
@@ -116,18 +116,18 @@ function thingview_stl_shortcode($attributes) {
   <script>
     jQuery(document).ready(function() {
       thingiurlbase = "' . $js_dir . '";
-      thingiview' . $attributes['id'] . ' = new Thingiview("stl-' . $attributes['id'] . '");
+      thingiview' . $attributes['id'] . ' = new Thingiview("thing-' . $attributes['id'] . '");
       thingiview' . $attributes['id'] . '.setObjectColor("' . $attributes['color']. '");
       thingiview' . $attributes['id'] . '.setBackgroundColor("' . $attributes['background'] . '");
       thingiview' . $attributes['id'] . '.initScene();
       thingiview' . $attributes['id'] . '.loadJSON("' . $file_url . '.json");
     })
   </script>
-  <div id="stl-' . $attributes['id'] .
+  <div id="thing-' . $attributes['id'] .
   '" class="' . $attributes['class'] .
   '" style="width:' . $attributes['width'] .
          '; height:' . $attributes['height'].'"></div>';
 }
-add_shortcode( 'stl', 'thingview_stl_shortcode' );
+add_shortcode( 'thing', 'thingview_thing_shortcode' );
 
 ?>
