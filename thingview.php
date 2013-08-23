@@ -108,10 +108,9 @@ function thingview_stl_shortcode($attributes) {
   wp_enqueue_script('jquery');
   wp_print_scripts('jquery');
   $js_dir = plugins_url("thingiview.js/javascripts/", __FILE__);
-  wp_enqueue_script("Three.js", $js_dir . "Three.js");
-  wp_enqueue_script("plane.js", $js_dir . "plane.js", array("Three.js"));
+  wp_enqueue_script("Three.js", $js_dir . "three.min.js");
   wp_enqueue_script("thingiview.js", $js_dir . "thingiview.js",
-                    array("Three.js", "plane.js"));
+                    array("Three.js"));
 
   return '
   <script>
