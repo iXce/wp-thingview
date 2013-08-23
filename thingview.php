@@ -100,7 +100,9 @@ function thingview_thing_shortcode($attributes) {
                               'class' => '',
                               'color' => '#86E4FF',
                               'background' => 'inherit',
-                              'border' => 'none');
+                              'border' => 'none',
+                              'gridsize' => 200,
+                              'gridunit' => 10);
   $attributes = shortcode_atts($default_attributes, $attributes, 'thing');
   $file_url = wp_get_attachment_url($attributes['id']);
   if ($file_url === false)
@@ -117,7 +119,7 @@ function thingview_thing_shortcode($attributes) {
   <script>
     jQuery(document).ready(function() {
       thingiurlbase = "' . $js_dir . '";
-      thingiview' . $attributes['id'] . ' = new Thingiview("thing-' . $attributes['id'] . '");
+      thingiview' . $attributes['id'] . ' = new Thingiview("thing-' . $attributes['id'] . '", ' . $attributes['gridsize'] . ', ' . $attributes['gridunit'] . ');
       thingiview' . $attributes['id'] . '.setObjectColor("' . $attributes['color']. '");
       thingiview' . $attributes['id'] . '.setBackgroundColor("' . $attributes['background'] . '");
       thingiview' . $attributes['id'] . '.initScene();
