@@ -99,7 +99,8 @@ function thingview_thing_shortcode($attributes) {
                               'height' => '360px',
                               'class' => '',
                               'color' => '#86E4FF',
-                              'background' => 'inherit');
+                              'background' => 'inherit',
+                              'border' => 'none');
   $attributes = shortcode_atts($default_attributes, $attributes, 'thing');
   $file_url = wp_get_attachment_url($attributes['id']);
   if ($file_url === false)
@@ -126,7 +127,8 @@ function thingview_thing_shortcode($attributes) {
   <div id="thing-' . $attributes['id'] .
   '" class="' . $attributes['class'] .
   '" style="width:' . $attributes['width'] .
-         '; height:' . $attributes['height'].'"></div>';
+         '; height:' . $attributes['height'] .
+         '; border:' . $attributes['border'] . '"></div>';
 }
 add_shortcode( 'thing', 'thingview_thing_shortcode' );
 
